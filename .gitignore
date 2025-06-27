@@ -1,0 +1,13 @@
+*.csproj
+*.user
+*.sln
+/.vs/
+/Library/
+/Logs/
+/obj/
+/Temp/
+/Builds/
+/UserSettings/
+/Assets/Packages/
+/Assets/Packages.meta
+/Packages/packages-lock.json
