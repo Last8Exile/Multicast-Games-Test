@@ -2,19 +2,16 @@ using UnityEngine;
 
 namespace Scripts.Unity.Systems
 {
-    public abstract class BaseSystem<T> : MonoBehaviour where T : BaseSystem<T>
+    public static class Systems<T> where T : BaseSystem
     {
-        public static T Instance => _instance;
-        private static T _instance;
+        public static T Instance => Core.Instance.ServiceProvider.GetSerivce<T>();
+    }
 
+    public abstract class BaseSystem : MonoBehaviour
+    {
         protected virtual void Awake()
         {
-            _instance = (T)this;
-        }
-
-        protected virtual void OnDestroy()
-        {
-            _instance = null;
+            Core.Instance.ServiceProvider.AddService(this);
         }
     }
 }

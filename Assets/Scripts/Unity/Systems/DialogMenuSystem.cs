@@ -1,14 +1,14 @@
 using Cysharp.Threading.Tasks;
 
-using Scripts.Unity.Systems;
 using Scripts.Unity.Tools;
+using Scripts.Unity.UI;
 
 using System;
 using System.Threading;
 
 using UnityEngine;
 
-namespace Scripts.Unity
+namespace Scripts.Unity.Systems
 {
     public struct DialogOptions
     {
@@ -24,7 +24,7 @@ namespace Scripts.Unity
     }
 
 
-    public class DialogMenuSystem : BaseSystem<DialogMenuSystem>
+    public class DialogMenuSystem : BaseSystem
     {
         [SerializeField] private PrefabContainer<DialogMenu> _dialogContainer;
         [NonSerialized] private SemaphoreSlim _semaphore;
@@ -35,11 +35,10 @@ namespace Scripts.Unity
             _semaphore = new SemaphoreSlim(1, 1);
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
             _semaphore?.Dispose();
             _semaphore = null;
-            base.OnDestroy();
         }
 
         public async UniTask<DialogResult> ShowAsync(DialogOptions options)

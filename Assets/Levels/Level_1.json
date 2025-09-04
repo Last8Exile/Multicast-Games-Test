@@ -1,3 +1,6 @@
 {
     "Id": "35dcc7f6-85cd-4ac6-9063-67e78eeaa006",
+    "WordLength": 6,
+    "Words": ["WORDLE", "SIMPLE", "DONGLE", "CASTLE"],
+    "Segments": ["LE", "LE", "LE", "LE", "LE", "WO", "RD", "SIMP", "DON", "GLE", "NE", "ST", "NEST", "NGLE", "TUP", "SH", "UFF", "WOB", "BB", "STO", "CAST"]
 }

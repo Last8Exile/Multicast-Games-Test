@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 using System;
 
-namespace Scripts.Unity
+namespace Scripts.Unity.Extensions
 {
     public static class SerializationExtensions
     {

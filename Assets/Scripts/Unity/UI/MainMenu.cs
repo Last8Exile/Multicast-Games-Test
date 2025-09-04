@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks;
-
 using Scripts.Unity.Systems;
 
 using System;
@@ -18,23 +16,13 @@ namespace Scripts.Unity.UI
         [SerializeField] private TextMeshProUGUI _completedCountText;
         [SerializeField] private Button _exitButton;
 
-        private ILevelData _levelToPlay;
+        [NonSerialized] private ILevelData _levelToPlay;
+
 
         private void Awake()
         {
             _playButton.onClick.AddListener(OnPlayClick);
             _exitButton.onClick.AddListener(OnExitClick);
-        }
-
-        private void OnEnable()
-        {
-            var saveData = SaveSystem.Instance.Data;
-            var levelSystem = LevelsSystem.Instance;
-
-            if (!levelSystem.TryGetNextLevel(saveData, out _levelToPlay))
-                _levelToPlay = levelSystem.FirstLevel;
-            _playLevelText.text = $"Level {_levelToPlay.Index + 1}";
-            _completedCountText.text = $"{levelSystem.CountCompletedLevels(saveData)} / {levelSystem.LevelsCount}";
         }
 
         private void OnPlayClick()
@@ -45,6 +33,17 @@ namespace Scripts.Unity.UI
         private void OnExitClick() 
         {
             Core.Instance.Quit();
+        }
+
+        public void Refresh()
+        {
+            var saveData = Systems<SaveSystem>.Instance.Data;
+            var levelSystem = Systems<LevelsSystem>.Instance;
+
+            if (!levelSystem.TryGetNextLevel(saveData, out _levelToPlay))
+                _levelToPlay = levelSystem.FirstLevel;
+            _playLevelText.text = $"Level {_levelToPlay.Index + 1}";
+            _completedCountText.text = $"{levelSystem.CountCompletedLevels(saveData)} / {levelSystem.LevelsCount}";
         }
     }
 }

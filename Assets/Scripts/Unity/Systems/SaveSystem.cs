@@ -19,7 +19,7 @@ namespace Scripts.Unity.Systems
         bool IsCompleted { get; }
     }
 
-    public class SaveSystem : BaseSystem<SaveSystem>
+    public class SaveSystem : BaseSystem
     {
         [NonSerialized] private bool _isLoaded;
         [NonSerialized] private string _key;

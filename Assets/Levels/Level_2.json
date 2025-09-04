@@ -1,3 +1,6 @@
 {
     "Id": "d722a9f9-e39d-4b88-8025-0f19413a10c6",
+    "WordLength": 6,
+    "Words": ["NOZZLE", "SPIDER", "LOGGER", "DONUTS"],
+    "Segments": ["NO", "ZZ", "LE", "SPID", "ER", "LOGG", "ER", "DO", "NUTS", "DEEZ", "PI", "NOZ", "ZLE", "SPI", "DER", "LO", "GG", "NUT"]
 }

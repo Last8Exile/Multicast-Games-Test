@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-using Scripts.Unity.Gameplay;
+using Scripts.Unity.Extensions;
 using Scripts.Unity.Systems;
 using Scripts.Unity.Tools;
 
@@ -11,55 +11,55 @@ namespace Scripts.Unity
     public class Core : MonoBehaviour
     {
         public static Core Instance { get; private set; }
-
+        public ServiceProvider ServiceProvider { get; private set; }
         [SerializeField] private PrefabCollection _instantiateOnAwake;
 
         private void Awake()
         {
             Instance = this;
+            ServiceProvider = new();
 
             SerializationExtensions.Init();
-
             foreach (var prefab in _instantiateOnAwake.Prefabs)
                 Instantiate(prefab).RemoveCloneFromName();
         }
 
         private void Start()
         {
-            SaveSystem.Instance.Load("Player 1");
+            Systems<SaveSystem>.Instance.Load("Player 1");
 
             MainMenu();
         }
 
         public void MainMenu()
         {
-            GameplaySystem.Instance.Hide();
-            EndLevelMenuSystem.Instance.SetVisible(false);
+            Systems<GameplaySystem>.Instance.Hide();
+            Systems<EndLevelMenuSystem>.Instance.SetVisible(false);
 
-            MainMenuSystem.Instance.SetVisible(true);
+            Systems<MainMenuSystem>.Instance.SetVisible(true);
         }
 
         public void StartLevel(ILevelData levelData)
         {
-            MainMenuSystem.Instance.SetVisible(false);
-            EndLevelMenuSystem.Instance.SetVisible(false);
+            Systems<MainMenuSystem>.Instance.SetVisible(false);
+            Systems<EndLevelMenuSystem>.Instance.SetVisible(false);
 
-            GameplaySystem.Instance.StartLevel(levelData);
+            Systems<GameplaySystem>.Instance.StartLevel(levelData);
         }
 
         public void EndLevel()
         {
-            GameplaySystem.Instance.Hide();
+            Systems<GameplaySystem>.Instance.Hide();
 
-            EndLevelMenuSystem.Instance.SetVisible(true);
+            Systems<EndLevelMenuSystem>.Instance.SetVisible(true);
         }
 
         public void Quit()
         {
-            ExitAsync().Forget();
-            async UniTaskVoid ExitAsync()
+            QuitAsync().Forget();
+            async UniTaskVoid QuitAsync()
             {
-                var result = await DialogMenuSystem.Instance.ShowAsync(new DialogOptions
+                var result = await Systems<DialogMenuSystem>.Instance.ShowAsync(new DialogOptions
                 {
                     Title = "Exit",
                     Message = "Are you sure you want to exit?",

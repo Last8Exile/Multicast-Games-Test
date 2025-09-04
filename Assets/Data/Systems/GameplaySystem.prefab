@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2e4a50949c3204180b5effbaf15871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Scripts.Unity::Scripts.Unity.Games.GameSystem
-  _gameContainer:
+  _wordMatchGameContainer:
     _prefab: {fileID: 1476578524681103548, guid: f0ade04f2b588324d9c66c189e57347b, type: 3}

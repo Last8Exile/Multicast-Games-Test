@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 
 using Scripts.Unity.Extensions;
-using Scripts.Unity.Gameplay;
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Scripts.Unity.Systems
         Guid Id { get; }
         int WordLength { get; }
         IReadOnlyList<string> Words { get; }
-        IReadOnlyList<string> Components { get; }
+        IReadOnlyList<string> Segments { get; }
 
         int Index { get; }
     }
@@ -25,15 +24,15 @@ namespace Scripts.Unity.Systems
         public Guid Id { get; set; }
         public int WordLength { get; set; }
         public List<string> Words { get; set; }
-        public List<string> Components { get; set; }
+        public List<string> Segments { get; set; }
         [JsonIgnore] public int Index { get; set; }
 
         IReadOnlyList<string> ILevelData.Words => Words;
-        IReadOnlyList<string> ILevelData.Components => Components;
+        IReadOnlyList<string> ILevelData.Segments => Segments;
     }
 
 
-    public class LevelsSystem : BaseSystem<LevelsSystem>
+    public class LevelsSystem : BaseSystem
     {
         [SerializeField] private List<TextAsset> _levelAssets;
 

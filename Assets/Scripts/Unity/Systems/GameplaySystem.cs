@@ -1,49 +1,51 @@
-using Scripts.Unity.Systems;
+using Scripts.Unity.Gameplay;
 using Scripts.Unity.Tools;
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Scripts.Unity.Gameplay
+namespace Scripts.Unity.Systems
 {
     public interface ILevelResult
     {
-        ILevelData LevelData { get; }
         bool Completed { get; }
+        IEnumerable<string> CompletedWords { get; }
     }
 
-    public class GameplaySystem : BaseSystem<GameplaySystem>
+    public class GameplaySystem : BaseSystem
     {
-        [SerializeField] private PrefabContainer<Gameplay> _gameplayContainer;
-        private Gameplay _gameplayInstance => _gameplayContainer.Instance;
+        [SerializeField] private PrefabContainer<WordMatchGame> _wordMatchGameContainer;
+        private WordMatchGame _wordMatchGameInstance => _wordMatchGameContainer.Instance;
+
+        public ILevelData Level => _level;
+        [NonSerialized] private ILevelData _level;
 
         public ILevelResult Result => _result;
-        [NonSerialized] private LevelResult _result;
+        [NonSerialized] private ILevelResult _result;
 
         public void StartLevel(ILevelData levelData)
         {
-            _gameplayContainer.GetOrCreateInstance();
-            _result = new LevelResult() { LevelData = levelData };
+            _level = levelData;
 
-            SetVisible(true);
+            _wordMatchGameContainer.GetOrCreateInstance();
+            _wordMatchGameInstance.StartLevel();
+        }
+
+        public void EndLevel(ILevelResult levelResult)
+        {
+            _result = levelResult;
+
+            if (levelResult.Completed)
+                Systems<SaveSystem>.Instance.LevelCompleted(_level.Id);
+            Core.Instance.EndLevel();
         }
 
         public void Hide()
         {
-            SetVisible(false);
-        }
-
-        private void SetVisible(bool visible)
-        {
-            if (_gameplayInstance)
-                _gameplayInstance.gameObject.SetActive(visible);
-        }
-
-        private class LevelResult : ILevelResult
-        {
-            public ILevelData LevelData { get; set; }
-            public bool Completed { get; set; }
+            if (_wordMatchGameInstance)
+                _wordMatchGameInstance.Hide();
         }
     }
 }

@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 
+using Scripts.Unity.Systems;
+
 using System;
 
 using TMPro;
@@ -7,7 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scripts.Unity
+namespace Scripts.Unity.UI
 {
     public class DialogMenu : MonoBehaviour
     {

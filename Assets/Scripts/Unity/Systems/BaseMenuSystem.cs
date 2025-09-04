@@ -1,11 +1,15 @@
+using Scripts.Unity.Tools;
+
 using System;
 
 using UnityEngine;
 
 namespace Scripts.Unity.Systems
 {
-    public abstract class BaseMenuSystem<T> : BaseSystem<T> where T : BaseMenuSystem<T>
+    public abstract class BaseMenuSystem<T> : BaseSystem where T: MonoBehaviour
     {
+        [SerializeField] private PrefabContainer<T> _menuContainer;
+        protected T _menuInstance => _menuContainer.Instance;
         [field: NonSerialized] public bool IsVisible { get; private set; }
 
         public void SetVisible(bool isVisible)
@@ -13,9 +17,9 @@ namespace Scripts.Unity.Systems
             if (IsVisible == isVisible)
                 return;
 
-            var menuInstance = GetMenuInstance();
+            var menuInstance = _menuInstance;
             if (isVisible && menuInstance == null)
-                menuInstance = CreateMenuInstance();
+                menuInstance = _menuContainer.GetOrCreateInstance();
 
             OnBeforeSetVisisble(isVisible);
             IsVisible = isVisible;
@@ -23,9 +27,6 @@ namespace Scripts.Unity.Systems
                 menuInstance.gameObject.SetActive(isVisible);
             OnAfterSetVisisble(isVisible);
         }
-
-        protected abstract MonoBehaviour GetMenuInstance();
-        protected abstract MonoBehaviour CreateMenuInstance();
 
         protected virtual void OnBeforeSetVisisble(bool isVisible) { }
         protected virtual void OnAfterSetVisisble(bool isVisible) { }
