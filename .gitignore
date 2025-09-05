@@ -2,6 +2,7 @@
 *.user
 *.sln
 /.vs/
+/.utmp/
 /Library/
 /Logs/
 /obj/

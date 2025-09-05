@@ -4,6 +4,9 @@ using Scripts.Unity.Extensions;
 using Scripts.Unity.Systems;
 using Scripts.Unity.Tools;
 
+using System;
+using System.Linq;
+
 using UnityEngine;
 
 namespace Scripts.Unity
@@ -26,6 +29,9 @@ namespace Scripts.Unity
 
         private void Start()
         {
+            if (Application.isMobilePlatform)
+                Application.targetFrameRate = Convert.ToInt32(Screen.resolutions.Max(r => r.refreshRateRatio.value));
+
             Systems<SaveSystem>.Instance.Load("Player 1");
 
             MainMenu();
